@@ -18,7 +18,7 @@ public class Main {
             String line = reader.readLine();
 
             while (line != null) {
-                System.out.println(line);
+                //System.out.println(line);
                 file.add(line);
                 line = reader.readLine();
             }
@@ -31,6 +31,8 @@ public class Main {
 
     public static void checkStyle(ArrayList<String> input) {
         checkPackage(input);
+        checkImports(input);
+
 
     }
 
@@ -39,17 +41,28 @@ public class Main {
         for (String s : input) {
             if (s.contains("package")) {
                 if (input.indexOf(s) != 0) {
-                    System.out.println("Error in use package in line" + (input.indexOf(s) + 1) + " must write in line 1");
+                    int line = input.indexOf(s);
+                    System.out.printf("Warring Line %d in use package | must write in line 1\n",line);
                     return -1;
                 }
             }
         }
         if (input.get(0).length() != 0) {
             if (!input.get(0).matches("package [A-Za-z.]+;") && !input.get(0).startsWith("import")) {
-                System.out.println("Error in use package in line 1 // use like this : package address;");
+                System.out.println("Warring Line 1 in use package\n");
             }
         }
         return 0;
     }
 
+    public static void checkImports(ArrayList<String> input) {
+        for (String s : input) {
+            if (s.startsWith("import")) {
+                if (!s.matches("import [A-Za-z.*]+;")) {
+                    int line = input.indexOf(s);
+                    System.out.printf("Warring Line %d in use import\n", line+1);
+                }
+            }
+        }
+    }
 }
