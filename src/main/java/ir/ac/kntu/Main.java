@@ -30,8 +30,9 @@ public class Main {
     }
 
     public static void checkStyle(ArrayList<String> input) {
-        checkPackage(input);
-        checkImports(input);
+        int e1 = checkPackage(input);
+        int e2 = checkImports(input);
+        int e3 = check80Char(input);
 
 
     }
@@ -42,8 +43,8 @@ public class Main {
             if (s.contains("package")) {
                 if (input.indexOf(s) != 0) {
                     int line = input.indexOf(s);
-                    System.out.printf("Warring Line %d in use package | must write in line 1\n",line);
-                    return -1;
+                    System.out.printf("Warring Line %d in use package | must write in line 1\n", line);
+                    return 1;
                 }
             }
         }
@@ -55,14 +56,28 @@ public class Main {
         return 0;
     }
 
-    public static void checkImports(ArrayList<String> input) {
+    public static int checkImports(ArrayList<String> input) {
         for (String s : input) {
             if (s.startsWith("import")) {
                 if (!s.matches("import [A-Za-z.*]+;")) {
                     int line = input.indexOf(s);
-                    System.out.printf("Warring Line %d in use import\n", line+1);
+                    System.out.printf("Warring Line %d in use import\n", line + 1);
+                    return 1;
                 }
             }
         }
+        return 0;
     }
+
+    public static int check80Char(ArrayList<String> input) {
+        for (String s : input) {
+            if (s.length() > 80) {
+                int line = input.indexOf(s);
+                System.out.printf("Warring Line %d longer than 80 charachter\n", line + 1);
+                return 1;
+            }
+        }
+        return 0;
+    }
+
 }
