@@ -38,10 +38,13 @@ public class Main {
         for (String s : input) {
             if (s.contains("package")) {
                 if (input.indexOf(s) != 0) {
-                        System.out.println("Error in use package in line" + (input.indexOf(s)+1)  + " must write in line 1");
-
+                    System.out.println("Error in use package in line" + (input.indexOf(s) + 1) + " must write in line 1");
+                    return -1;
                 }
             }
+        }
+        if (!input.get(0).matches("package [A-Za-z.]+;")) {
+            System.out.println("Error in use package in line 1 // use like this : package address;");
         }
         return 0;
     }
