@@ -35,6 +35,7 @@ public class Main {
     }
 
     public static int checkPackage(ArrayList<String> input) {
+
         for (String s : input) {
             if (s.contains("package")) {
                 if (input.indexOf(s) != 0) {
@@ -43,8 +44,10 @@ public class Main {
                 }
             }
         }
-        if (!input.get(0).matches("package [A-Za-z.]+;")) {
-            System.out.println("Error in use package in line 1 // use like this : package address;");
+        if (input.get(0).length() != 0) {
+            if (!input.get(0).matches("package [A-Za-z.]+;") && !input.get(0).startsWith("import")) {
+                System.out.println("Error in use package in line 1 // use like this : package address;");
+            }
         }
         return 0;
     }
