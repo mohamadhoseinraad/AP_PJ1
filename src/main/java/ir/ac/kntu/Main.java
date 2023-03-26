@@ -33,6 +33,7 @@ public class Main {
         int e1 = checkPackage(input);
         int e2 = checkImports(input);
         int e3 = check80Char(input);
+        int e4 = checkSemicolon(input);
 
 
     }
@@ -92,4 +93,28 @@ public class Main {
         return 0;
     }
 
+    public static int checkSemicolon(ArrayList<String> input) {
+        boolean findError = false;
+        for (String s : input) {
+            if (countSemi(s) > 1) {
+                int line = input.indexOf(s);
+                System.out.printf("Warring Line %d use just one \";\" \n", line + 1);
+                findError = true;
+            }
+        }
+        if (findError) {
+            return 1;
+        }
+        return 0;
+    }
+
+    public static int countSemi(String s) {
+        int count = 0;
+        for (int i = 0; i < s.length(); i++) {
+            if (s.charAt(i) == ';') {
+                count++;
+            }
+        }
+        return count;
+    }
 }
