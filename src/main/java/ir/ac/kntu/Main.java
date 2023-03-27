@@ -34,6 +34,7 @@ public class Main {
         int e2 = checkImports(input);
         int e3 = check80Char(input);
         int e4 = checkSemicolon(input);
+        int e5 = checkClass(input);
 
 
     }
@@ -137,7 +138,7 @@ public class Main {
         for (String s : input) {
             if (s.contains("public class")) {
                 if (!s.matches("public class [A-Z]{1}[A-Za-z]*[{]{1}")) {
-                    System.out.printf("Warring Line %d : Error in use class syntax or Name\n", (input.indexOf(s) + 1));
+                    System.out.printf("Warring Line %d : Error in use (class) syntax or Naming\n", (input.indexOf(s) + 1));
                     return false;
                 }
                 break;
