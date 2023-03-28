@@ -35,6 +35,7 @@ public class Main {
         int e3 = check80Char(input);
         int e4 = checkSemicolon(input);
         int e5 = checkClass(input);
+        int e6 = checkMainMethod(input);
 
 
     }
@@ -158,5 +159,40 @@ public class Main {
             return false;
         }
         return true;
+    }
+
+    public static int checkMainMethod(ArrayList<String> input) {
+        boolean findError = false;
+        int fromLine = whereIsClass(input);
+        for (String s : input) {
+            if (s.toLowerCase().contains("main")) {
+                int line = input.indexOf(s) + 1;
+                if (!s.equals("public static void main(String[] args) {")) {
+                    System.out.printf("Warring Line %d : use tru signature of main method\n", line);
+                    findError = true;
+                }
+                if (line < fromLine) {
+                    System.out.printf("Warring Line %d : use main method out of public class !\n", line);
+                    findError = true;
+                }
+                if (!s.contains("main")) {
+                    System.out.printf("Warring Line %d : naming style must camelCase\n", line);
+                    findError = true;
+                }
+            }
+        }
+        if (findError) {
+            return 1;
+        }
+        return 0;
+    }
+
+    public static int whereIsClass(ArrayList<String> input) {
+        for (String s : input) {
+            if (s.contains("public class")) {
+                return (input.indexOf(s) + 1);
+            }
+        }
+        return 0;
     }
 }
