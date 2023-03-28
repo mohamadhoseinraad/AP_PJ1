@@ -36,6 +36,7 @@ public class Main {
         int e4 = checkSemicolon(input);
         int e5 = checkClass(input);
         int e6 = checkMainMethod(input);
+        int e7 = checkIndentation(input);
 
 
     }
@@ -138,7 +139,7 @@ public class Main {
     public static boolean checkClassFormat(ArrayList<String> input) {
         for (String s : input) {
             if (s.contains("public class")) {
-                if (!s.matches("public class [A-Z]{1}[A-Za-z]*[{]{1}")) {
+                if (!s.matches("public class [A-Z]{1}[A-Za-z]*\s[{]{1}")) {
                     System.out.printf("Warring Line %d : Error in use (class) syntax or Naming\n", (input.indexOf(s) + 1));
                     return false;
                 }
@@ -167,7 +168,7 @@ public class Main {
         for (String s : input) {
             if (s.toLowerCase().contains("main")) {
                 int line = input.indexOf(s) + 1;
-                if (!s.equals("public static void main(String[] args) {")) {
+                if (!s.trim().equals("public static void main(String[] args) {")) {
                     System.out.printf("Warring Line %d : use tru signature of main method\n", line);
                     findError = true;
                 }
@@ -194,5 +195,48 @@ public class Main {
             }
         }
         return 0;
+    }
+
+    public static int checkIndentation(ArrayList<String> input) {
+        String base = "    ";
+        String checkSpace = "";
+        for (String s : input) {
+            int line = input.indexOf(s) + 1;
+            if (s.length() != 0 && !s.contains("}")) {
+                if (checkSpace.length() != 0) {
+                    if (!(s.trim().length() == s.length() - checkSpace.length())) {
+                        System.out.printf("Warring Line %d : fail in indentation use space\n", line);
+                    }
+                }
+            }
+            if (s.contains("{")) {
+                if (!s.endsWith("{")) {
+                    System.out.printf("Warring Line %d : fail in indentation {  must end of line\n", line);
+                }
+                checkSpace += base;
+            } else if (s.contains("}")) {
+                if (checkSpace.length() >= 4) {
+                    checkSpace = createSpace(checkSpace);
+                }
+                if (!s.equals(checkSpace + "}")) {
+                    System.out.printf("Warring Line %d : fail in indentation } must end of line alone\n", line);
+                }
+            }
+            if (s.contains("{") && s.contains("}")) {
+                System.out.printf("Warring Line %d : fail in indentation { and } not at same line\n", line);
+            }
+
+        }
+        return 0;
+    }
+
+    public static String createSpace(String input) {
+        String result = "";
+        String base = "    ";
+        int times = input.length() / 4 - 1;
+        for (int i = 0; i < times; i++) {
+            result += base;
+        }
+        return result;
     }
 }
