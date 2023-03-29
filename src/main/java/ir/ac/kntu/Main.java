@@ -35,7 +35,7 @@ public class Main {
         int e3 = check80Char(input);
         int e4 = checkSemicolon(input);
         int e5 = checkClass(input);
-        int e6 = checkMainMethod(input);
+        int e6 = checkMethods(input);
         int e7 = checkIndentation(input);
 
 
@@ -142,7 +142,7 @@ public class Main {
         for (String s : input) {
             if (s.contains("public class")) {
                 if (!s.matches("public class [A-Z]{1}[A-Za-z]*\s[{]{1}")) {
-                    System.out.printf("Warring Line %d : Error in use (class) syntax or Naming\n", (input.indexOf(s) + 1));
+                    System.out.printf("Warring Line %d : Error in use (class) Naming\n", (input.indexOf(s) + 1));
                     return false;
                 }
                 break;
@@ -164,23 +164,14 @@ public class Main {
         return true;
     }
 
-    public static int checkMainMethod(ArrayList<String> input) {
+    public static int checkMethods(ArrayList<String> input) {
         boolean findError = false;
         int fromLine = whereIsClass(input);
         for (String s : input) {
-            String tmp = s.toLowerCase();
-            if (tmp.contains("main") && tmp.contains("public") && tmp.contains("static")) {
-                int line = input.indexOf(s) + 1;
-                if (!s.trim().equals("public static void main(String[] args) {")) {
-                    System.out.printf("Warring Line %d : use tru signature of main method\n", line);
-                    findError = true;
-                }
-                if (line < fromLine) {
-                    System.out.printf("Warring Line %d : use main method out of public class !\n", line);
-                    findError = true;
-                }
-                if (!s.contains("main")) {
-                    System.out.printf("Warring Line %d : naming style must camelCase\n", line);
+            int line = input.indexOf(s) + 1;
+            if (s.matches("\s*public static.*")) {
+                if (!s.matches("\s*public static [A-Za-z\\[ \\]]+ [a-z]{1}[A-Za-z\\[ \\]]+.*")) {
+                    System.out.printf("Warring Line %d : Fail naming method\n", line);
                     findError = true;
                 }
             }
