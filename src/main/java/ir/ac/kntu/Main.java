@@ -192,36 +192,56 @@ public class Main {
     }
 
     public static int checkIndentation(ArrayList<String> input) {
-        String base = "    ";
-        String checkSpace = "";
-        for (String s : input) {
-            int line = input.indexOf(s) + 1;
-            if (s.length() != 0 && !s.contains("}")) {
-                if (checkSpace.length() != 0) {
-                    if (!(s.trim().length() == s.length() - checkSpace.length())) {
-                        System.out.printf("Warring Line %d : fail in indentation use space\n", line);
-                    }
-                }
+//        String base = "    ";
+//        String checkSpace = "";
+        int tab = 4;
+        for (int i = 142; i < input.size(); i++) {
+            String s = input.get(i);
+            int line = i + 1;
+            int checkTab = updateTabNumber(input, line - 1);
+//            if (!s.matches("( ){" + checkTab + "}[^\s]*") && !s.trim().contains("//")) {
+//                System.out.printf("Warring Line %d : Fail indentation\n", line);
+//            }
+            boolean nulAndComment = s.trim().contains("//") || (s.length() == 0);
+            if (s.trim().length() + checkTab != s.length() && !nulAndComment) {
+                System.out.printf("Warring Line %d : Fail indentation\n", line);
             }
-            if (s.contains("{")) {
-                if (!s.endsWith("{")) {
-                    System.out.printf("Warring Line %d : fail in indentation {  must end of line\n", line);
-                }
-                checkSpace += base;
-            } else if (s.contains("}")) {
-                if (checkSpace.length() >= 4) {
-                    checkSpace = createSpace(checkSpace);
-                }
-                if (!s.equals(checkSpace + "}")) {
-                    System.out.printf("Warring Line %d : fail in indentation } must end of line alone\n", line);
-                }
-            }
-            if (s.contains("{") && s.contains("}")) {
-                System.out.printf("Warring Line %d : fail in indentation { and } not at same line\n", line);
-            }
-
         }
         return 0;
+    }
+
+    public static int countOpenBrace(ArrayList<String> input, int to) {
+        int number = 0;
+        for (int i = 0; i < to; i++) {
+            String s = input.get(i);
+            s = s.replaceAll("(\\\\){1}(\\{){1}|(\\\\){1}(\\}){1}","");
+            for (int j = 0; j < s.length(); j++) {
+                if (s.charAt(j) == '{') {
+                    number++;
+                }
+            }
+        }
+        return number;
+    }
+
+    public static int countCloseBrace(ArrayList<String> input, int to) {
+        int number = 0;
+        for (int i = 0; i <= to; i++) {
+            String s = input.get(i);
+            for (int j = 0; j < s.length(); j++) {
+                if (s.charAt(j) == '}') {
+                    number++;
+                }
+            }
+        }
+        return number;
+    }
+
+    public static int updateTabNumber(ArrayList<String> input, int to) {
+        int braceOpen = countOpenBrace(input, to);
+        int braceClose = countCloseBrace(input, to);
+        int result = (braceOpen - braceClose) * 4;
+        return result;
     }
 
     public static String createSpace(String input) {
