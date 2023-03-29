@@ -44,7 +44,8 @@ public class Main {
     public static int checkPackage(ArrayList<String> input) {
         boolean findeError = false;
         for (String s : input) {
-            if (s.contains("package")) {
+            int classLine = whereIsClass(input);
+            if (s.contains("package") && input.indexOf(s) <= (classLine - 1)) {
                 if (input.indexOf(s) != 0) {
                     int line = input.indexOf(s);
                     System.out.printf("Warring Line %d : in use package | must write in line 1\n", line);
@@ -67,7 +68,8 @@ public class Main {
     public static int checkImports(ArrayList<String> input) {
         boolean findError = false;
         for (String s : input) {
-            if (s.contains("import")) {
+            int classLine = whereIsClass(input);
+            if (s.contains("import") && input.indexOf(s) <= (classLine - 1)) {
                 if (!s.matches("import [A-Za-z.*]+;")) {
                     int line = input.indexOf(s);
                     System.out.printf("Warring Line %d : In use import\n", line + 1);
@@ -99,7 +101,7 @@ public class Main {
     public static int checkSemicolon(ArrayList<String> input) {
         boolean findError = false;
         for (String s : input) {
-            if (countSemi(s) > 1) {
+            if (countSemi(s) > 1 && !s.contains("for")) {
                 int line = input.indexOf(s);
                 System.out.printf("Warring Line %d : Use just one \";\" for declaration or method\n", line + 1);
                 findError = true;
@@ -152,7 +154,7 @@ public class Main {
     public static boolean isOneClass(ArrayList<String> input) {
         int count = 0;
         for (String s : input) {
-            if (s.contains("public class")) {
+            if (s.matches("\s*public class [A-Za-z]+.*")) {
                 count++;
             }
         }
@@ -166,7 +168,8 @@ public class Main {
         boolean findError = false;
         int fromLine = whereIsClass(input);
         for (String s : input) {
-            if (s.toLowerCase().contains("main")) {
+            String tmp = s.toLowerCase();
+            if (tmp.contains("main") && tmp.contains("public") && tmp.contains("static")) {
                 int line = input.indexOf(s) + 1;
                 if (!s.trim().equals("public static void main(String[] args) {")) {
                     System.out.printf("Warring Line %d : use tru signature of main method\n", line);
