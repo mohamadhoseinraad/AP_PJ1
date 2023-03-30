@@ -371,16 +371,16 @@ public class Main {
         if (s.contains("ArrayList")) {
             return false;
         }
-        if (s.contains("int ") || s.contains("long ")) {
+        if (s.matches("\s+int(\\[\\])*.*") || s.matches("\s+int(\\[\\])*.*")) {
             return true;
         }
-        if (s.contains("double ") || s.contains("float ")) {
+        if (s.matches("\s+double(\\[\\])*.*") || s.matches("\s+float(\\[\\])*.*")) {
             return true;
         }
-        if (s.contains("String ") || s.contains("char ")) {
+        if (s.matches("\s+String(\\[\\])*.*") || s.matches("\s+char(\\[\\])*.*")) {
             return true;
         }
-        if (s.contains("byte ") || s.contains("boolean ")) {
+        if (s.matches("\s+byte(\\[\\])*.*") || s.matches("\s+boolean(\\[\\])*.*")) {
             return true;
         }
         return false;
