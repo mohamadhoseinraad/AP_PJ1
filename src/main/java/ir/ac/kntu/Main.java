@@ -30,10 +30,11 @@ public class Main {
     }
 
     public static void checkStyle(ArrayList<String> input) {
+        ArrayList<String> old = input;
         input = updateFile(input);
         int e1 = checkPackage(input);
         int e2 = checkImports(input);
-        int e3 = check80Char(input);
+        int e3 = check80Char(old);
         int e4 = checkSemicolon(input);
         int e5 = checkClass(input);
         int e6 = checkMethods(input);
@@ -105,7 +106,7 @@ public class Main {
         for (String s : input) {
             if (s.length() > 80) {
                 int line = input.indexOf(s) + 1;
-                System.out.printf("Warring Line %d : Each line must less than 80 character\n", line + 1);
+                System.out.printf("Warring Line %d : Each line must less than 80 character : %d\n", line + 1, s.length());
                 findError = true;
             }
         }
