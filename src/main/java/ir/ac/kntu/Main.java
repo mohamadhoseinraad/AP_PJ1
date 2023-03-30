@@ -38,7 +38,7 @@ public class Main {
         int e5 = checkClass(input);
         int e6 = checkMethods(input);
         int e7 = checkIndentation(input);
-        //int e8 = checkCamelCase(input);
+        int e8 = checkNaming(input);
 
     }
 
@@ -208,19 +208,14 @@ public class Main {
     }
 
     public static int checkIndentation(ArrayList<String> input) {
-//        String base = "    ";
-//        String checkSpace = "";
-        int tab = 4;
-        for (int i = 233; i < input.size(); i++) {
+
+        for (int i = 0; i < input.size(); i++) {
             String s = input.get(i);
             int line = i + 1;
             int checkTab = updateTabNumber(input, line - 1);
-//            if (!s.matches("( ){" + checkTab + "}[^\s]*") && !s.trim().contains("//")) {
-//                System.out.printf("Warring Line %d : Fail indentation\n", line);
-//            }
-            boolean nulAndComment = s.trim().contains("//") || (s.length() == 0);
-            if (s.trim().length() + checkTab != s.length() && !nulAndComment) {
-                System.out.printf("Warring Line %d : Fail indentation\n", line);
+            if (s.trim().length() + checkTab != s.length() && s.length() != 0) {
+                System.out.printf("Warring Line %d : Fail indentation(indentation not check after this line)\n", line);
+                return 1;
             }
         }
         return 0;
@@ -259,5 +254,4 @@ public class Main {
         int result = (braceOpen - braceClose) * 4;
         return result;
     }
-
 }
