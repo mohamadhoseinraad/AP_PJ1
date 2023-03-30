@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Main {
+public class main {
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
@@ -46,7 +46,7 @@ public class Main {
         ArrayList<String> result = new ArrayList<>();
         for (String s : input) {
             s = s.replaceAll("\".*\"", "");
-            if (!s.trim().startsWith("//")) {
+            if (s.trim().startsWith("//")) {
                 result.add("");
             } else {
                 result.add(s);
@@ -154,11 +154,10 @@ public class Main {
     public static boolean checkClassFormat(ArrayList<String> input) {
         for (String s : input) {
             if (s.contains("public class")) {
-                if (!s.matches("public class [A-Z]{1}[A-Za-z]*\s[{]{1}")) {
+                if (!s.matches("public class [A-Z]{1}[A-Za-z]+ .*")) {
                     System.out.printf("Warring Line %d : Error in use (class) Naming\n", (input.indexOf(s) + 1));
                     return false;
                 }
-                break;
             }
         }
         return true;
