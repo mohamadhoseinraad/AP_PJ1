@@ -82,7 +82,7 @@ public class Main {
         boolean findError = false;
         for (String s : input) {
             int classLine = whereIsClass(input);
-            if (s.contains("import") && !s.contains("\"")) {
+            if (s.contains("import")) {
                 if (!s.matches("import [A-Za-z.*]+;")) {
                     int line = input.indexOf(s);
                     System.out.printf("Warring Line %d : In use import\n", line + 1);
