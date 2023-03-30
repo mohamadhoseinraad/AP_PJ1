@@ -38,7 +38,7 @@ public class Main {
         int e5 = checkClass(input);
         int e6 = checkMethods(input);
         int e7 = checkIndentation(input);
-
+        int e8 = checkIf(input);
     }
 
     public static ArrayList<String> updateFile(ArrayList<String> input) {
@@ -252,5 +252,32 @@ public class Main {
         int braceClose = countCloseBrace(input, to);
         int result = (braceOpen - braceClose) * 4;
         return result;
+    }
+
+    public static int checkIf(ArrayList<String> input) {
+        boolean findError = false;
+        for (String s : input) {
+            int line = input.indexOf(s) + 1;
+            if (s.contains("else if")) {
+                if (!s.matches("\s*\\} else if (.*) \\{")) {
+                    findError = true;
+                    System.out.printf("Warring Line %d : use true signature of elseif\n", line);
+                }
+            } else if (s.contains("else")) {
+                if (!s.matches("\s*\\} else \\{")) {
+                    findError = true;
+                    System.out.printf("Warring Line %d : use true signature of else\n", line);
+                }
+            } else if (s.contains("if")) {
+                if (!s.matches("\s*if (.*) \\{")) {
+                    findError = true;
+                    System.out.printf("Warring Line %d : use true signature of if\n", line);
+                }
+            }
+        }
+        if (findError) {
+            return 1;
+        }
+        return 0;
     }
 }
