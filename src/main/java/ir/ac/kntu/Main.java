@@ -1,5 +1,4 @@
 package ir.ac.kntu;
-//String ss = "sddkhg";
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -58,7 +57,7 @@ public class Main {
         boolean findeError = false;
         for (String s : input) {
             int classLine = whereIsClass(input);
-            if (s.contains("package") && !s.contains("\"")) {
+            if (s.contains("package")) {
                 if (input.indexOf(s) != 0) {
                     int line = input.indexOf(s);
                     System.out.printf("Warring Line %d : in use package | must write in line 1\n", line);
@@ -66,8 +65,8 @@ public class Main {
                 }
             }
         }
-        if (input.get(0).length() != 0) {
-            if (!input.get(0).matches("package [A-Za-z.]+;") && !input.get(0).startsWith("import")) {
+        if (input.get(0).contains("package")) {
+            if (!input.get(0).matches("package [A-Za-z.]+;")) {
                 System.out.println("Warring Line 1 :  in use package\n");
                 findeError = true;
             }
