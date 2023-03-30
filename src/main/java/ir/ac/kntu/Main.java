@@ -37,7 +37,7 @@ public class Main {
         int e4 = checkSemicolon(input);
         int e5 = checkClass(input);
         int e6 = checkMethods(input);
-        //int e7 = checkIndentation(input);
+        int e7 = checkIndentation(input);
         //int e8 = checkCamelCase(input);
 
     }
@@ -46,6 +46,7 @@ public class Main {
         ArrayList<String> result = new ArrayList<>();
         for (String s : input) {
             s = s.replaceAll("\".*\"", "");
+            s = s.replaceAll("'.*'", "");
             if (s.trim().startsWith("//")) {
                 result.add("");
             } else {
@@ -210,7 +211,7 @@ public class Main {
 //        String base = "    ";
 //        String checkSpace = "";
         int tab = 4;
-        for (int i = 142; i < input.size(); i++) {
+        for (int i = 233; i < input.size(); i++) {
             String s = input.get(i);
             int line = i + 1;
             int checkTab = updateTabNumber(input, line - 1);
