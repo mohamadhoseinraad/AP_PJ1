@@ -185,7 +185,7 @@ public class Main {
         for (String s : input) {
             int line = input.indexOf(s) + 1;
             if (s.matches("\s*public static.*")) {
-                if (!s.matches("\s*public static [A-Za-z\\[ \\]]+ [a-z]{1}[A-Za-z\\[ \\]]+.*")) {
+                if (!s.matches("\s*public static [A-Za-z\\[ \\]<>]+ [a-z]{1}[A-Za-z\\[ \\]]+.*")) {
                     System.out.printf("Warring Line %d : Fail naming method\n", line);
                     findError = true;
                 }
