@@ -32,12 +32,12 @@ public class Main {
     public static void checkStyle(ArrayList<String> input) {
         int e1 = checkPackage(input);
         int e2 = checkImports(input);
-        int e3 = check80Char(input);
+        //int e3 = check80Char(input);
         int e4 = checkSemicolon(input);
         int e5 = checkClass(input);
         int e6 = checkMethods(input);
-        int e7 = checkIndentation(input);
-
+        //int e7 = checkIndentation(input);
+        //int e8 = checkCamelCase(input);
 
     }
 
@@ -45,7 +45,7 @@ public class Main {
         boolean findeError = false;
         for (String s : input) {
             int classLine = whereIsClass(input);
-            if (s.contains("package") && input.indexOf(s) <= (classLine - 1)) {
+            if (s.contains("package") && !s.contains("\"")) {
                 if (input.indexOf(s) != 0) {
                     int line = input.indexOf(s);
                     System.out.printf("Warring Line %d : in use package | must write in line 1\n", line);
@@ -166,7 +166,6 @@ public class Main {
 
     public static int checkMethods(ArrayList<String> input) {
         boolean findError = false;
-        int fromLine = whereIsClass(input);
         for (String s : input) {
             int line = input.indexOf(s) + 1;
             if (s.matches("\s*public static.*")) {
@@ -184,7 +183,7 @@ public class Main {
 
     public static int whereIsClass(ArrayList<String> input) {
         for (String s : input) {
-            if (s.contains("public class")) {
+            if (s.contains("public class") && !s.contains("\"")) {
                 return (input.indexOf(s) + 1);
             }
         }
@@ -214,7 +213,7 @@ public class Main {
         int number = 0;
         for (int i = 0; i < to; i++) {
             String s = input.get(i);
-            s = s.replaceAll("(\\\\){1}(\\{){1}|(\\\\){1}(\\}){1}","");
+            s = s.replaceAll("(\\\\){1}(\\{){1}|(\\\\){1}(\\}){1}", "");
             for (int j = 0; j < s.length(); j++) {
                 if (s.charAt(j) == '{') {
                     number++;
@@ -244,13 +243,4 @@ public class Main {
         return result;
     }
 
-    public static String createSpace(String input) {
-        String result = "";
-        String base = "    ";
-        int times = input.length() / 4 - 1;
-        for (int i = 0; i < times; i++) {
-            result += base;
-        }
-        return result;
-    }
 }
