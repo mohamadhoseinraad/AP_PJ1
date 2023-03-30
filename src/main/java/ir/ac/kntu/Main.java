@@ -40,6 +40,7 @@ public class Main {
         int e7 = checkIndentation(input);
         int e8 = checkIf(input);
         int e9 = checkWhile(input);
+        int e10 = checkSwitch(input);
     }
 
     public static ArrayList<String> updateFile(ArrayList<String> input) {
@@ -290,6 +291,33 @@ public class Main {
                 if (!s.matches("\s*while \\(.*\\) \\{")) {
                     System.out.printf("Warring Line %d : use true signature of while\n", line);
                     findError = true;
+                }
+            }
+        }
+        if (findError) {
+            return 1;
+        }
+        return 0;
+    }
+
+    public static int checkSwitch(ArrayList<String> input) {
+        boolean findError = false;
+        for (int i = 0; i < input.size(); i++) {
+            String s = input.get(i);
+            if (s.contains("switch")) {
+                boolean findDefault = false;
+                for (int j = i; input.get(j).trim().equals("}"); j++) {
+                    String ss = input.get(j);
+                    if (!ss.matches("case .*: .* | default: .*")) {
+                        System.out.printf("Warring Line %d : use true signature of switch\n", j + 1);
+                        findError = true;
+                    }
+                    if (ss.contains("default")) {
+                        findDefault = true;
+                    }
+                }
+                if (!findDefault) {
+                    System.out.printf("Warring Line %d : switch doesn't have default\n", i + 1);
                 }
             }
         }
