@@ -1,4 +1,5 @@
 package ir.ac.kntu;
+//String ss = "sddkhg";
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -30,6 +31,7 @@ public class Main {
     }
 
     public static void checkStyle(ArrayList<String> input) {
+        input = updateFile(input);
         int e1 = checkPackage(input);
         int e2 = checkImports(input);
         //int e3 = check80Char(input);
@@ -39,6 +41,17 @@ public class Main {
         //int e7 = checkIndentation(input);
         //int e8 = checkCamelCase(input);
 
+    }
+
+    public static ArrayList<String> updateFile(ArrayList<String> input) {
+        ArrayList<String> result = new ArrayList<>();
+        for (String s : input) {
+            s = s.replaceAll("\".*\"", "");
+            if (!s.trim().startsWith("//")) {
+                result.add(s);
+            }
+        }
+        return result;
     }
 
     public static int checkPackage(ArrayList<String> input) {
