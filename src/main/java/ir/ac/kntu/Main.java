@@ -33,12 +33,11 @@ public class Main {
         input = updateFile(input);
         int e1 = checkPackage(input);
         int e2 = checkImports(input);
-        //int e3 = check80Char(input);
+        int e3 = check80Char(input);
         int e4 = checkSemicolon(input);
         int e5 = checkClass(input);
         int e6 = checkMethods(input);
         int e7 = checkIndentation(input);
-        int e8 = checkNaming(input);
 
     }
 
