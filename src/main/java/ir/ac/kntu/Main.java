@@ -42,6 +42,7 @@ public class Main {
         int e9 = checkWhile(input);
         int e10 = checkSwitch(input);
         int e11 = checkFor(input);
+        int e12 = checkCamel(input);
     }
 
     public static ArrayList<String> updateFile(ArrayList<String> input) {
@@ -103,7 +104,7 @@ public class Main {
         boolean findError = false;
         for (String s : input) {
             if (s.length() > 80) {
-                int line = input.indexOf(s);
+                int line = input.indexOf(s) + 1;
                 System.out.printf("Warring Line %d : Each line must less than 80 character\n", line + 1);
                 findError = true;
             }
@@ -212,11 +213,11 @@ public class Main {
     public static int checkIndentation(ArrayList<String> input) {
 
         for (int i = 0; i < input.size(); i++) {
-            String s = input.get(i);
+            String se = input.get(i);
             int line = i + 1;
             int checkTab = updateTabNumber(input, line - 1);
-            if (s.trim().length() + checkTab != s.length() && s.length() != 0) {
-                System.out.printf("Warring Line %d : Fail indentation(indentation not check after this line)\n", line);
+            if (se.trim().length() + checkTab != se.length() && se.length() != 0) {
+                System.out.printf("Warring Line %d : Fail indentation(not check after this)\n", line);
                 return 1;
             }
         }
@@ -226,10 +227,10 @@ public class Main {
     public static int countOpenBrace(ArrayList<String> input, int to) {
         int number = 0;
         for (int i = 0; i < to; i++) {
-            String s = input.get(i);
-            s = s.replaceAll("(\\\\){1}(\\{){1}|(\\\\){1}(\\}){1}", "");
-            for (int j = 0; j < s.length(); j++) {
-                if (s.charAt(j) == '{') {
+            String se = input.get(i);
+            se = se.replaceAll("(\\\\){1}(\\{){1}|(\\\\){1}(\\}){1}", "");
+            for (int j = 0; j < se.length(); j++) {
+                if (se.charAt(j) == '{') {
                     number++;
                 }
             }
@@ -240,9 +241,9 @@ public class Main {
     public static int countCloseBrace(ArrayList<String> input, int to) {
         int number = 0;
         for (int i = 0; i <= to; i++) {
-            String s = input.get(i);
-            for (int j = 0; j < s.length(); j++) {
-                if (s.charAt(j) == '}') {
+            String se = input.get(i);
+            for (int j = 0; j < se.length(); j++) {
+                if (se.charAt(j) == '}') {
                     number++;
                 }
             }
@@ -304,8 +305,8 @@ public class Main {
     public static int checkSwitch(ArrayList<String> input) {
         boolean findError = false;
         for (int i = 0; i < input.size(); i++) {
-            String s = input.get(i);
-            if (s.contains("switch")) {
+            String se = input.get(i);
+            if (se.contains("switch")) {
                 boolean findDefault = false;
                 for (int j = i; input.get(j).trim().equals("}"); j++) {
                     String ss = input.get(j);
@@ -331,9 +332,9 @@ public class Main {
     public static int checkFor(ArrayList<String> input) {
         boolean findError = false;
         for (int i = 0; i < input.size(); i++) {
-            String s = input.get(i);
-            if (s.contains("for")) {
-                if (!s.matches("\s*for \\([A-Za-z]+ [a-z]{1}[A-Za-z]* .*\\) \\{")) {
+            String se = input.get(i);
+            if (se.contains("for")) {
+                if (!se.matches("\s*for \\([A-Za-z]+ [a-z]{1}[A-Za-z]* .*\\) \\{")) {
                     System.out.printf("Warring Line %d : fail signature of for or naming\n", i + 1);
                     findError = true;
                 }
@@ -343,5 +344,44 @@ public class Main {
             return 1;
         }
         return 0;
+    }
+
+    public static int checkCamel(ArrayList<String> input) {
+        boolean findError = false;
+        for (String s : input) {
+            if (haveDecler(s)) {
+                if (!s.matches("\s* [A-Za-z]+ [a-z]{1}[A-Za-z0-9]+ .*")) {
+                    int line = input.indexOf(s) + 1;
+                    findError = true;
+                    System.out.printf("Warring Line %d : Fail check StyleNaming\n", line);
+                }
+            }
+        }
+        if (findError) {
+            return 1;
+        }
+        return 0;
+    }
+
+    public static boolean haveDecler(String s) {
+        if (s.contains("for")) {
+            return false;
+        }
+        if (s.contains("ArrayList")) {
+            return false;
+        }
+        if (s.contains("int ") || s.contains("long ")) {
+            return true;
+        }
+        if (s.contains("double ") || s.contains("float ")) {
+            return true;
+        }
+        if (s.contains("String ") || s.contains("char ")) {
+            return true;
+        }
+        if (s.contains("byte ") || s.contains("boolean ")) {
+            return true;
+        }
+        return false;
     }
 }
