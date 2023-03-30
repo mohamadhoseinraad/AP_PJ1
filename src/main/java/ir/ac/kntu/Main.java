@@ -47,6 +47,8 @@ public class Main {
         for (String s : input) {
             s = s.replaceAll("\".*\"", "");
             if (!s.trim().startsWith("//")) {
+                result.add("");
+            } else {
                 result.add(s);
             }
         }
@@ -56,7 +58,6 @@ public class Main {
     public static int checkPackage(ArrayList<String> input) {
         boolean findeError = false;
         for (String s : input) {
-            int classLine = whereIsClass(input);
             if (s.contains("package")) {
                 if (input.indexOf(s) != 0) {
                     int line = input.indexOf(s);
