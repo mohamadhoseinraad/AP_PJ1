@@ -39,6 +39,7 @@ public class Main {
         int e6 = checkMethods(input);
         int e7 = checkIndentation(input);
         int e8 = checkIf(input);
+        int e9 = checkWhile(input);
     }
 
     public static ArrayList<String> updateFile(ArrayList<String> input) {
@@ -272,6 +273,23 @@ public class Main {
                 if (!s.matches("\s*if (.*) \\{")) {
                     findError = true;
                     System.out.printf("Warring Line %d : use true signature of if\n", line);
+                }
+            }
+        }
+        if (findError) {
+            return 1;
+        }
+        return 0;
+    }
+
+    public static int checkWhile(ArrayList<String> input) {
+        boolean findError = false;
+        for (String s : input) {
+            if (s.contains("while")) {
+                int line = input.indexOf(s) + 1;
+                if (!s.matches("\s*while \\(.*\\) \\{")) {
+                    System.out.printf("Warring Line %d : use true signature of while\n", line);
+                    findError = true;
                 }
             }
         }
