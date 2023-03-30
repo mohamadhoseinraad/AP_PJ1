@@ -167,11 +167,15 @@ public class Main {
     public static boolean isOneClass(ArrayList<String> input) {
         int count = 0;
         for (String s : input) {
+            int line = input.indexOf(s) + 1;
             if (s.matches("\s*public class [A-Za-z]+.*")) {
                 count++;
             }
+            if (count > 1) {
+                System.out.printf("Warring Line %d : Use one class in code\n", line);
+            }
         }
-        if (count != 1) {
+        if (count > 1) {
             return false;
         }
         return true;
