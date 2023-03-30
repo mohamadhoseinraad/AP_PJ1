@@ -41,6 +41,7 @@ public class Main {
         int e8 = checkIf(input);
         int e9 = checkWhile(input);
         int e10 = checkSwitch(input);
+        int e11 = checkFor(input);
     }
 
     public static ArrayList<String> updateFile(ArrayList<String> input) {
@@ -308,7 +309,7 @@ public class Main {
                 boolean findDefault = false;
                 for (int j = i; input.get(j).trim().equals("}"); j++) {
                     String ss = input.get(j);
-                    if (!ss.matches("case .*: .* | default: .*")) {
+                    if (!ss.matches("case .*: .* | default: .*") && ss.length() != 0) {
                         System.out.printf("Warring Line %d : use true signature of switch\n", j + 1);
                         findError = true;
                     }
@@ -318,6 +319,23 @@ public class Main {
                 }
                 if (!findDefault) {
                     System.out.printf("Warring Line %d : switch doesn't have default\n", i + 1);
+                }
+            }
+        }
+        if (findError) {
+            return 1;
+        }
+        return 0;
+    }
+
+    public static int checkFor(ArrayList<String> input) {
+        boolean findError = false;
+        for (int i = 0; i < input.size(); i++) {
+            String s = input.get(i);
+            if (s.contains("for")) {
+                if (!s.matches("\s*for \\([A-Za-z]+ [a-z]{1}[A-Za-z]* .*\\) \\{")) {
+                    System.out.printf("Warring Line %d : fail signature of for or naming\n", i + 1);
+                    findError = true;
                 }
             }
         }
