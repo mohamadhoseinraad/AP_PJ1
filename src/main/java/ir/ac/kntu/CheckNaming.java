@@ -9,11 +9,13 @@ public class CheckNaming {
         boolean findError = false;
         for (String s : input) {
             int line = input.indexOf(s) + 1;
-            if (s.matches("\s*public static.*")) {
-                String[] argument = s.split(",|\\(");
-                System.out.println(Arrays.deepToString(argument));
-                if (!s.matches("\s*public static [A-Za-z\\[ \\]<>]+ [a-z]{1}[A-Za-z\\[ \\]]+.*")) {
+            if (s.matches("\s*(public|private) (static)?.*") && !s.contains("class")) {
+                if (!s.matches("\s*(public|private)( static)? [A-Za-z\\[\\]<>]+ [a-z]{1}[A-Za-z\\[\\]]+.*")) {
                     System.out.printf("Warring Line %d : Fail naming method\n", line);
+                    findError = true;
+                }
+                if (!checkArgument(s)) {
+                    System.out.printf("Warring Line %d : Fail naming argument of method\n", line);
                     findError = true;
                 }
             }
@@ -29,7 +31,7 @@ public class CheckNaming {
         boolean findError = false;
         for (String s : input) {
             if (haveDecler(s)) {
-                if (!s.matches("\s* [A-Za-z<>]+ [a-z]{1}[A-Za-z0-9]+ .*")) {
+                if (!s.matches("\s* [A-Za-z<>\\[\\]]+ [a-z]{1}[A-Za-z0-9]+ .*")) {
                     int line = input.indexOf(s) + 1;
                     findError = true;
                     System.out.printf("Warring Line %d : Fail check StyleNaming\n", line);
@@ -40,6 +42,19 @@ public class CheckNaming {
             return 1;
         }
         return 0;
+    }
+
+    public static boolean checkArgument(String s) {
+        String temp = s.replaceAll(".*\\(|private|public|static|\\(|\\)|\\{|\\}", "");
+        String[] argument = temp.split(",");
+        for (int i = 0; i < argument.length; i++) {
+            String name = argument[i].trim();
+            if (!name.matches("[A-Za-z<>\\[\\]]+ [a-z]{1}[A-Za-z0-9]+")) {
+                System.out.print(name+" : ");
+                return false;
+            }
+        }
+        return true;
     }
 
     public static boolean haveDecler(String s) {
