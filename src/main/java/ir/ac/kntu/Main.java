@@ -8,7 +8,6 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 public class Main {
-
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         String fileName = scanner.nextLine();
@@ -30,13 +29,8 @@ public class Main {
         }
     }
 
-    public static void checkStyle(ArrayList<String> input){
-
+    public static void checkStyle(ArrayList<String> input) {
         String result = CheckStyle.checkAllStyle(input);
         System.out.println(result);
-    }
-
-    private void sHS(int a, int bv, boolean cv, String[] awq) {
-
     }
 }
