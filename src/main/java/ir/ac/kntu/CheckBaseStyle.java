@@ -10,6 +10,8 @@ public class CheckBaseStyle {
             if (s.length() > 80) {
                 int line = input.indexOf(s) + 1;
                 System.out.printf("Warring Line %d : Each line must less than 80 character : %d\n", line, s.length());
+                System.out.println("We suggest change this line like this : ");
+                Suggestes.sugesst80char(s);
                 findError = true;
             }
         }
