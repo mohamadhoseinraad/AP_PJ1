@@ -1,5 +1,5 @@
-# سامانه Courses 
-[Documentation](https://docs.google.com/document/d/1aGKJx90JMwXqh_yXCuZlBNGL3UVjunAvVK9wQJ6WTiY/edit)
+# پروژه اول - تمیز کد بزن! 
+[Documentation](https://docs.google.com/document/d/1q33OFToHlZK9WjOPucZAFysjdGZK30k9BH49aSPAjoE/edit)
 
 <ul>
 <li>
